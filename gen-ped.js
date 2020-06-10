@@ -205,19 +205,19 @@ H.i=tag=>{
 }
 let entrycount=0,prevalpha='';
 H.dt=tag=>{
-	entrycount++;
 	//˚Khattuṃ invalid ˚ in <dfn>
 	let alpha=linetext.match(/^[\*˚-]?([A-YĀŪĪpjÑṬḌḶ])/); //jalūkā (new insert pts pdf 580)
 	if (!alpha) throw "invalid wordhead"+linetext;
 	alpha=alpha[1].toUpperCase();
 	if (prevalpha!==alpha){
-		rawtext.push("::"+alpha+"::");
+		rawtext.push("::"+alpha);
 		if (entrycount<5) {
 			//console.log(entrycount,"too few page",linetext,rawtext.length)
 		}
 		entrycount=0;
 	}
-	rawtext.push(entrycount+":"+linetext);
+	rawtext.push(":"+(entrycount+1)+"-"+linetext);
+	entrycount++;
 	prevalpha=alpha;
 	linetext='';
 }

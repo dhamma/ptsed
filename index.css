@@ -1,0 +1,21 @@
+body{
+  margin:0 0;
+}
+.cardnav {width:100%;position: sticky;top:0px;}
+.floatright{float:right;}
+#app {
+  display: flex;
+  flex-direction: row;
+}
+.maintext {font-family: Tahoma}
+#app .pts-container {
+  width: 35em;
+  height:100vh;
+  overflow-y:scroll;
+}
+
+#app .ped-container {
+  background-color: #DFDFDF;
+  flex: auto;
+  width:50%;
+}

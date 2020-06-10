@@ -48,22 +48,14 @@ const dofile=(fn,builder)=>{
 
 
 
-const canon=()=>{
+const canon=(tsv,name)=>{
 	const out=[],footnote=[];
-	const builder=createbuilder({name:"pts"});
-	dofile(folder+'palipg1.tsv',builder);
+	const builder=createbuilder({name});
+	dofile(folder+tsv,builder);
 
 	console.log(builder.maxlineofpage,builder.maxlineofpageat)
 	builder.done();
 	//builder.writerawtext("ptsraw.txt");
 }
 
-const commentaries=()=>{
-	const out=[],footnote=[];
-	dofile(folder+'palipg2.tsv',true,out);
-	dofile(folder+'footpg2.tsv',false,footnote);	
-	console.log("writing att")
-	fs.writeFileSync('ptsa-raw.txt',out.join("\n"),"utf8");
-}
-
-canon();
+build('palipg1.tsv','pts');
