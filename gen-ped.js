@@ -94,7 +94,7 @@ O.a=tag=>{
 }
 H.a=tag=>{
 	if (newcompound) {
-		headword.push([curword+"+"+snippet,rawtext.length]);
+		addheadword(curword+"+"+snippet);
 		newcompound=false;
 	}
 }
@@ -167,9 +167,9 @@ H.span=tag=>{
 		if (snippet.indexOf(" ")>-1) {
 			errors.push(rawtext.length+"\tref\t"+snippet )
 		}
-		snippet=snippet.replace(/ /g,'');
+		//snippet=snippet.replace(/ /g,'');
 		linetext=linetext.substr(0,linetext.length-backward);
-		linetext+="@"+snippet+";";
+		linetext+="@["+snippet+"]";
 		linkcount++;
 	}
 }
@@ -196,26 +196,36 @@ H.i=tag=>{
 			const expandword=compound.split(regex);
 			for (w of expandword){
 				if (isPaliword(w)){
-					headword.push([w.toLowerCase(),rawtext.length]);
+					addheadword(w.toLowerCase());
 				}
+			}
+		} else if (snippet[0]=='-' && !newcompound) {
+			//not enclosed by <a> , around 3000+ 
+			//eg ghara-kapoṭa
+			if (isPaliword(snippet.substr(1))) {
+				addheadword(curword+snippet); // snippet has no defination
 			}
 		}
 		linetext+="]";
 	}
 }
-let entrycount=0,prevalpha='';
+let entrycount=0,prevalpha='',pagestart=0;
 H.dt=tag=>{
 	//˚Khattuṃ invalid ˚ in <dfn>
 	let alpha=linetext.match(/^[\*˚-]?([A-YĀŪĪpjÑṬḌḶ])/); //jalūkā (new insert pts pdf 580)
 	if (!alpha) throw "invalid wordhead"+linetext;
 	alpha=alpha[1].toUpperCase();
+
 	if (prevalpha!==alpha){
 		rawtext.push("::"+alpha);
 		if (entrycount<5) {
 			//console.log(entrycount,"too few page",linetext,rawtext.length)
 		}
 		entrycount=0;
+		pagestart=rawtext.length;
 	}
+	addheadword(curword);
+	if (curword=="ghara") debugger
 	rawtext.push(":"+(entrycount+1)+"-"+linetext);
 	entrycount++;
 	prevalpha=alpha;
@@ -271,7 +281,9 @@ parsetext=text=>{
 	parser.write(text);
 }
 const highfreq=[]
-
+addheadword=w=>{
+	headword.push([w,rawtext.length]);
+}
 dofile=()=>{
 	const pts=JSON.parse(fs.readFileSync("./pts.json","utf8"));
 	const MAXWORD=pts.length
@@ -280,8 +292,6 @@ dofile=()=>{
 		curword=pts[i].word;
 		const text=pts[i].text;
 		
-		
-		headword.push([curword,rawtext.length]);
 		m1=text.match(/<dd.+<\/dd>/);
 		if (!m1) {
 			console.log(text)

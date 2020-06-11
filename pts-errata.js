@@ -1,4 +1,14 @@
-﻿"kalya-rūpa",
+﻿word: Kāma
+— -ādhikaraṇa having its cause in desire mn1_p85 ; sn1_p74 ;
+should be mn1_p86
+
+"word": "iddhi", nested ref
+<span class='ref'>Vin.209</span>, <span class='ref'>Vin.240</span>; <span class='ref'>Vin.<span class='ref'>DN.iii.</span>iii.67</span>;
+
+
+	
+	
+			"kalya-rūpa",
 	move from nati natta
 
 

@@ -3,7 +3,7 @@ require("./ui/nav");
 require("./ui/dictionary");
 
 const {ptsstore,dictstore}=require("./store");
-const {open,parseCAP}=require("dengine");
+const {open,parseCAP,packintarr}=require("dengine");
 const Component=require('./component');
 new Vue({
 	//store,
@@ -15,7 +15,9 @@ new Vue({
 			ptsstore.dispatch("setCap",cap);
 		});
 		open("ped",db=>{
-			const cap=parseCAP("A_p1",db);
+			db.payload=db.payload.split("\n");
+			db.extra.headwordx0=packintarr.unpack3(db.extra.headwordx0);
+			const cap=parseCAP("K_p437",db);
 			dictstore.dispatch("setCap",cap);					
 		})
 	}

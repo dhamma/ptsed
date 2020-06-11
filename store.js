@@ -19,10 +19,11 @@ const getters = {
 }
 const actions = {
  setCap: ({commit,state},cap)=>{
- 	if (typeof cap=="string") {
+ 	if (typeof cap=="string" || typeof cap=="number") {
  		cap=parseCAP(cap,state.cap.db);
  	}
- 	readlines(cap.db,cap.x0,cap.px,(texts)=>{
+ 	if (!cap) return;
+ 	readlines(cap.db,cap.x0-cap.x,cap.px,(texts)=>{
  		commit("updateCap",cap)
  		commit("updateTexts",texts)
  	})

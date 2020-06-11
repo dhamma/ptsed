@@ -14,7 +14,7 @@ Vue.component("CapNav",{
 	<div class="cardnav">
 	<div class="floatright">
 		<button @click="prevp">‹</button>
-		<input  v-bind:value="cap" @keyup.enter="onenter"></input>
+		<input  class="cap" v-bind:value="cap" @keyup.enter="onenter"></input>
 		<button @click="nextp">›</button>
 	</div>
 	</div>
