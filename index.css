@@ -11,6 +11,12 @@ input.headword {width:8em;font-size:90%;font-family: Consolas;}
 .citation:hover {text-decoration: underline;cursor:pointer;}
 .highlightx0{background-color: yellow}
 .panel{background-color: silver}
+
+
+.card {display:block;margin-left:1em;overflow-y: scroll;
+	margin-top:0.5em;margin-bottom:0.5em;margin-right:3px;
+	border:1px dotted #1C6EA4}
+
 #app {
   display: flex;
   flex-direction: row;

@@ -23,7 +23,7 @@ const actions = {
  		cap=parseCAP(cap,state.cap.db);
  	}
  	if (!cap) return;
- 	readlines(cap.db,cap.x0-cap.x,cap.px,(texts)=>{
+ 	readlines(cap.db,cap.x0-cap.x,cap._w,(texts)=>{
  		commit("updateCap",cap)
  		commit("updateTexts",texts)
  	})

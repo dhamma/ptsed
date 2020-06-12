@@ -11,13 +11,13 @@ new Vue({
 	state:Vuex.mapState(['cap'])
 	,mounted(){
 		open("pts",db=>{
-			const cap=parseCAP("mv_p1",db);
+			const cap=parseCAP("mv_1",db);
 			ptsstore.dispatch("setCap",cap);
 		});
 		open("ped",db=>{
 			db.payload=db.payload.split("\n");
 			db.extra.headwordx0=packintarr.unpack3(db.extra.headwordx0);
-			const cap=parseCAP("K_p437",db);
+			const cap=parseCAP("B_295",db);
 			dictstore.dispatch("setCap",cap);					
 		})
 	}
