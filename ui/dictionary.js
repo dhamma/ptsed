@@ -1,5 +1,6 @@
+'use strict';
 const {dictstore}=require("../store");
-const {bsearch,parseCAP,readlines}=require("dengine");
+const {bsearch,parseCAP,readlines}=require("pengine");
 const inputpali=require("./inputpali");
 require("./citation");
 

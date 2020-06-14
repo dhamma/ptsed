@@ -1,4 +1,5 @@
-const {readlines,parseCAP}=require("dengine")
+'use strict';
+const {readlines,parseCAP}=require("pengine")
 const _state = {
   cap:null,
   texts:[]

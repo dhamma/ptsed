@@ -1,3 +1,4 @@
+'use strict';
 const {ptsstore}=require("../store");
 Vue.component("CapNav",{
 	methods:{

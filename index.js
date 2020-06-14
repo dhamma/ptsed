@@ -1,9 +1,10 @@
+'use strict';
 require("./ui/main");
 require("./ui/nav");
 require("./ui/dictionary");
 
 const {ptsstore,dictstore}=require("./store");
-const {open,parseCAP,packintarr}=require("dengine");
+const {open,parseCAP,packintarr}=require("pengine");
 const Component=require('./component');
 new Vue({
 	//store,
@@ -14,7 +15,7 @@ new Vue({
 			const cap=parseCAP("mv_1",db);
 			ptsstore.dispatch("setCap",cap);
 		});
-		open("ped",db=>{
+		open("sc0ped",db=>{
 			db.payload=db.payload.split("\n");
 			db.extra.headwordx0=packintarr.unpack3(db.extra.headwordx0);
 			const cap=parseCAP("B_295",db);
