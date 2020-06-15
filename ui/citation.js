@@ -11,7 +11,17 @@ const patterns=[
 	[/([DMSA]N)\.([iv]{1,3})\.(\d+)/,
 	 (m,nky,vol,p)=> nky.toLowerCase()+Latin[vol]+"_"+p],
 	[/Ja\.([iv]{1,3})\.(\d+)/, (m,vol,p)=> "ja"+Latin[vol]+"_"+p],
-	[/(Iti|Mnd|Dhp|Ud)\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"_"+p],
+	[/(Iti|Kp|Mnd|Dhp|Ud|Vb)\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"_"+p],
+
+	[/(DN-a)\.([i]{1,3})\.(\d+)/, (m,nky,vol,p)=> "dn-a_"+p],
+
+	[/([MSA]N-a)\.([iv]{1,3})\.(\d+)/,
+	 (m,nky,vol,p)=> nky.toLowerCase()+Latin[vol]+"_"+p],
+	[/(Iti|Kp|Vv|Snp|Mnd|Ud|Vb|Pv)-a\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"-a_"+p],
+	[/(Mil|Vism)\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"_"+p],
+	[/(Dhp-a)\.([iv]{1,3})\.(\d+)/, (m,nky,vol,p)=> "dhp-a"+Latin[vol]+"_"+p],
+	[/(Dhs-a)\.(\d+)/, (m,nky,vol,p)=> "ds-a_"+p],
+
 	//[/Dhs\.(\d+)/, (m,p)=> "ds_"+p],  not page number
 ]
 const transpos=pts=>{

@@ -15,10 +15,11 @@ new Vue({
 			const cap=parseCAP("mv_1",db);
 			ptsstore.dispatch("setCap",cap);
 		});
+			
 		open("sc0ped",db=>{
 			db.payload=db.payload.split("\n");
 			db.extra.headwordx0=packintarr.unpack3(db.extra.headwordx0);
-			const cap=parseCAP("B_295",db);
+			const cap=parseCAP("C_136",db);
 			dictstore.dispatch("setCap",cap);					
 		})
 	}
