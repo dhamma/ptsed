@@ -32,7 +32,7 @@ const actions = {
  		cap=parseCAP(cap,state.cap.db);
  	}
  	if (!cap) return;
-	if (state.keep) {
+	if (state.keep&&state.cap) {
 		const history=state.history.map(i=>i);
 		history.push(state.cap);
 		commit( "history", history);

@@ -5,14 +5,21 @@ require("./ui/dictionary");
 
 const {ptsstore,dictstore}=require("./store");
 const {open,parseCAP,packintarr}=require("pengine");
+const quicklinks=[
+'sn5_421','dn2_156'
+]
 new Vue({
 	//store,
 	el:"#app",
 	state:Vuex.mapState(['cap'])
 	,mounted(){
 		open("pts",db=>{
-			const cap=parseCAP("mv_1",db);
+			const cap=parseCAP("an1_59",db);
 			ptsstore.dispatch("setCap",cap);
+
+			const history=ptsstore.getters.history;
+			quicklinks.forEach(link=>history.push(parseCAP(link,db)));
+			ptsstore.commit("history",history);
 		});
 			
 		open("sc0ped",db=>{

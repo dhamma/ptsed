@@ -108,7 +108,9 @@ const Candidates=Vue.extend({
 		const extra=this.candidates.compound?"-":"";
 		const len=this.candidates.length-1;
 		const children=this.candidates.map((c,idx)=>{
-			return h(ele,{attrs:{x0:c.x0},on:{click:this.selectCandidate}}
+			const cls=(c.x0>0)?"dictword":"notdictword";
+			return h(ele,{attrs:{x0:c.x0},
+				class:cls,on:{click:this.selectCandidate}}
 				,c.headword+(idx<len?extra:''));
 		})
 		return h("div",children);

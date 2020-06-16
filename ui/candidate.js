@@ -3,12 +3,16 @@ const {suggestedBreak,listCandidate}=require("paliword");
 const breakcompound=(dictdb,w)=>{
 	const headwords=window.palilexicon=dictdb.payload;
 	const headwordx0=dictdb.extra.headwordx0;
+	w=w.replace(/ṃ(\S)/g,"ṅ$1");
 	const candidates=listCandidate(w);
 	const suggested=suggestedBreak(w,candidates);
 	const out=[];
 	suggested.map(s=>{
 		const candidate=candidates[s[1]];
-		if (!candidate)return;
+		if (!candidate) {
+			out.push({headword:s[0],x0:-1});
+			return;
+		};
 		const w=palilexicon[candidate[0]];
 		let at=candidate[0]
 		while (at>0){

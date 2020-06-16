@@ -14,8 +14,8 @@ input.headword {width:18em;font-size:90%;font-family: Tahoma;}
 .highlightx0{background-color: yellow}
 .highlight{background-color: lightblue}
 .panel{background-color: silver}
-
-
+.abbr {color:blue;font-family: Tahoma}
+.notdictword{color:gray;cursor:auto;}
 .card {display:block;margin-left:1em;overflow-y: scroll;
 	margin-top:0.5em;margin-bottom:0.5em;margin-right:3px;
 	border:1px dotted #1C6EA4}

@@ -16,10 +16,14 @@ const renderline=(h,line)=>{
 
  	if (hlw) {
 	 	hlw=hlw.substr(0,hlw.length-1)+".";
+ 		hlw=hlw.replace(/ṅ/g,'[ṃnṅ]');
+ 		hlw=hlw.replace(/[āa]/g,'[āa]');
+ 		hlw=hlw.replace(/[ūu]/g,'[ūu]');
+ 		hlw=hlw.replace(/[īi]/g,'[īi]');
 	  	const regex=new RegExp(hlw,"gi");
 	  	
 	  	line.replace(regex,(m,idx)=>{
-	  		children.push(h('span', line.substr(prev,idx) ));
+	  		children.push(h('span', line.substring(prev,idx) ));
 	  		children.push(h('span',{class:"highlight"} ,line.substr(idx,m.length) ));
 	  		prev=idx+m.length;
 	  	})
