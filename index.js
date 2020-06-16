@@ -5,7 +5,6 @@ require("./ui/dictionary");
 
 const {ptsstore,dictstore}=require("./store");
 const {open,parseCAP,packintarr}=require("pengine");
-const Component=require('./component');
 new Vue({
 	//store,
 	el:"#app",
@@ -20,7 +19,8 @@ new Vue({
 			db.payload=db.payload.split("\n");
 			db.extra.headwordx0=packintarr.unpack3(db.extra.headwordx0);
 			const cap=parseCAP("C_136",db);
-			dictstore.dispatch("setCap",cap);					
+			dictstore.commit("updateCap",cap); //no display, for user guide
+			//dictstore.commit("setCap",cap);  //display 	
 		})
 	}
 });

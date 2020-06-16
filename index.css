@@ -3,13 +3,16 @@ body{
 }
 .cardnav {width:100%;position: sticky;top:0px;}
 .dictpanel {position:sticky;top:0px;}
-.candidates{position:fixed;background-color: silver;cursor:pointer;z-index: 999}
+.candidates{font-size:90%;font-family:Tahoma;padding-bottom: 5px;
+  padding-top:5px;
+  background-color: silver;cursor:pointer;z-index: 999}
 .floatright{float:right;}
-input.cap {width:6em;font-size:90%;font-family: Consolas;}
-input.headword {width:8em;font-size:90%;font-family: Consolas;}
-.citation {color:darkblue;}
+input.cap {width:6em;font-size:90%;font-family: Tahoma;}
+input.headword {width:18em;font-size:90%;font-family: Tahoma;}
+.citation {font-family:Consolas;color:darkblue;}
 .citation:hover {text-decoration: underline;cursor:pointer;}
 .highlightx0{background-color: yellow}
+.highlight{background-color: lightblue}
 .panel{background-color: silver}
 
 

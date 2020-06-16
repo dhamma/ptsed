@@ -1,34 +1,12 @@
 'use strict';
 const {dictstore}=require("../store");
-const {bsearch,parseCAP,readlines}=require("pengine");
+const {parseCAP,readlines}=require("pengine");
 const inputpali=require("./inputpali");
+const bus=require("./eventbus");
+const {listcandidate}=require("./candidate")
 require("./citation");
+require("./userguide");
 
-
-const listcandidate=(dictdb,prefix)=>{
-	if (!prefix.trim()){
-		return [];
-	}
-	const headwords=dictdb.payload;
-	const headwordx0=dictdb.extra.headwordx0;
-	let at=bsearch(headwords,prefix,true);
-	const MAXITEM=15;
-	const candidates=[];
-	while (at>0){
-		if (headwords[at-1].substr(0,prefix.length)==prefix) at--;
-		else break;
-	}
-	while (at<headwords.length) {
-		if (headwords[at].substr(0,prefix.length)==prefix) {
-			candidates.push({headword:headwords[at], x0:headwordx0[at]});
-			if (candidates.length>=MAXITEM) break;
-			at++;
-		} else {
-			break;
-		}
-	}
-	return candidates;
-}
 let searchtimer=0,blurtimer;
 const NestedCard=Vue.extend({
 	props:{
@@ -41,7 +19,7 @@ const NestedCard=Vue.extend({
 		return h("div",{class:this.depth?"card":""},
 			[
 			 this.close?h("button",{class:"floatright",on:{click:this.close}},"✖"):null,
-			 h("div",{},	children)
+			 h("div",{},children)
 			]
 		);
 	}
@@ -94,13 +72,14 @@ const CardButton=Vue.extend({
 	}
 })
 let headword='';
-const renderline=(h,item,headword)=>{
+const renderline=(h,item)=>{
 	const x0=item[0],text=item[1];
 	const children=[];
 	let lastidx=0;
 	const title=dictstore.getters.cap.stringify();
 	if (text[0]=="㊔") {
-		return h("div",{class:"entry",attrs:{title}},text.substr(2));
+		headword=text.substr(2);
+		return h("div",{class:"entry",attrs:{title}},headword);
 	}
 
 	text.replace(/[@\^]\[(.+?)\]/g,(m,m1,idx)=>{
@@ -110,7 +89,7 @@ const renderline=(h,item,headword)=>{
 		if (m[0]=="^") {
 			children.push(h(CardButton,{props:{word:m1}}));
 		} else {
-			children.push(h("citation",{props:{label:m1}}));			
+			children.push(h("citation",{props:{label:m1,headword}}));			
 		}
 	})
 	children.push( h("span", text.substr(lastidx)));
@@ -119,16 +98,31 @@ const renderline=(h,item,headword)=>{
 
 	return h("div",{class:x0==capx0?"highlightx0":""},children);
 }
-
+const Candidates=Vue.extend({
+	props:{
+		selectCandidate:{type:Function},
+		candidates:{type:Array}
+	},
+	render(h){
+		const ele=this.candidates.compound?"span":"div";
+		const extra=this.candidates.compound?"-":"";
+		const len=this.candidates.length-1;
+		const children=this.candidates.map((c,idx)=>{
+			return h(ele,{attrs:{x0:c.x0},on:{click:this.selectCandidate}}
+				,c.headword+(idx<len?extra:''));
+		})
+		return h("div",children);
+	}
+})
 const DictionaryPanel=Vue.extend({
+	store:dictstore,
 	methods:{
 		oninput(event){
-			inputpali(event.target)
+			inputpali(event.target);
 			this.prefix=event.target.value;
 			this.candidates=listcandidate(dictstore.getters.cap.db,this.prefix);
 			if (event.key=="Enter" &&this.candidates.length) {
 				this.goto(this.candidates[0].x0);
-				this.showcandidate=false;
 				this.$refs.hw.blur();
 			} else {
 				this.showcandidate=true;
@@ -154,8 +148,24 @@ const DictionaryPanel=Vue.extend({
 			this.$refs.hw.focus();
 		},
 	},
+	mounted(){
+		bus.$on('settofind',t=>{
+			this.prefix=t.toLowerCase();
+			if (!this.prefix)return;
+			this.candidates=listcandidate(dictstore.getters.cap.db,this.prefix);
+			this.showcandidate=true;
+			if ((this.candidates.length &&this.candidates.compound)
+			 || this.candidates.length==1){
+				this.goto(this.candidates[0].x0);
+			}
+			clearTimeout(blurtimer);
+		})
+	},
 	data(){
-		return {prefix:"", capstr:'', candidates:[],showcandidate:false}
+		return {prefix:'',capstr:'', candidates:[],showcandidate:false}
+	},
+	components:{
+		Candidates:Candidates
 	},
 	//
 	template:`
@@ -163,10 +173,9 @@ const DictionaryPanel=Vue.extend({
 		<input ref="hw" class="headword" v-bind:value="prefix" 
 			@blur="onblur" @focus="onfocus"
 			@keyup="oninput"></input>
+		
 		<div v-if="showcandidate" class="candidates">
-			<div v-for="item in candidates">
-			    <div :x0="item.x0" @click="selectCandidate">{{item.headword}}</div> 
-			</div>
+			<Candidates :candidates="candidates" :selectCandidate="selectCandidate"/>
 		</div>
 	</div>
 	`
@@ -174,9 +183,12 @@ const DictionaryPanel=Vue.extend({
 Vue.component("DictionaryContainer",{
   functional:true,
   render(h) { //eslint-disable-line
+  		const texts=dictstore.getters.texts;
   		return  h("div",{},
  				[h(DictionaryPanel),
- 				h(NestedCard,{props:{texts:dictstore.getters.texts}})]
+ 				texts.length?
+ 				h(NestedCard,{props:{texts}}):h("UserGuide")
+ 				]
  			)
 	}
 });

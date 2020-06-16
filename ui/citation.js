@@ -11,7 +11,7 @@ const patterns=[
 	[/([DMSA]N)\.([iv]{1,3})\.(\d+)/,
 	 (m,nky,vol,p)=> nky.toLowerCase()+Latin[vol]+"_"+p],
 	[/Ja\.([iv]{1,3})\.(\d+)/, (m,vol,p)=> "ja"+Latin[vol]+"_"+p],
-	[/(Iti|Kp|Mnd|Dhp|Ud|Vb)\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"_"+p],
+	[/(Iti|Kp|Mnd|Ud|Vb)\.(\d+)/, (m,bk,p)=> bk.toLowerCase()+"_"+p],
 
 	[/(DN-a)\.([i]{1,3})\.(\d+)/, (m,nky,vol,p)=> "dn-a_"+p],
 
@@ -22,6 +22,25 @@ const patterns=[
 	[/(Dhp-a)\.([iv]{1,3})\.(\d+)/, (m,nky,vol,p)=> "dhp-a"+Latin[vol]+"_"+p],
 	[/(Dhs-a)\.(\d+)/, (m,nky,vol,p)=> "ds-a_"+p],
 
+	[/(Snp|Thag|Thig|Dhp)\.(\d+)/, (m,bk,q)=> {
+		bk=bk.toLowerCase();
+		let startpage=0,obk='';
+		if (bk=="thig") {
+			startpage=122;
+			obk='Thig.';
+		} 
+		const mapping=ptsstore.getters.cap.db.extra[bk];
+		let p=0;
+		q=parseInt(q);
+		for (var i=0;i<mapping.length;i++) {
+			if (mapping[i]>q) {
+				p=i+startpage;
+				break;
+			}
+		}
+		if (obk=="Thig.") bk='thag';
+		return bk+"_"+ p+"("+obk+q+")";
+	}],
 	//[/Dhs\.(\d+)/, (m,p)=> "ds_"+p],  not page number
 ]
 const transpos=pts=>{
@@ -53,10 +72,12 @@ const transpos=pts=>{
 
 Vue.component("citation",{
 	props:{
-		label:{type:String}
+		label:{type:String},
+		headword:{type:String}
 	},
 	methods:{
 		gopts(){
+			ptsstore.dispatch("setHighlight",this.headword.toLowerCase());
 			ptsstore.dispatch("setCap",event.target.innerText);
 		}
 	},
