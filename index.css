@@ -4,12 +4,12 @@ body{
 .cardnav {width:100%;position: sticky;top:0px;}
 .dictpanel {position:sticky;top:0px;}
 .candidates{font-size:90%;font-family:Tahoma;padding-bottom: 5px;
-  padding-top:5px;
+  padding-top:5px;overflow-y: scroll;max-height: 10em;
   background-color: silver;cursor:pointer;z-index: 999}
 .floatright{float:right;}
 input.cap {width:6em;font-size:90%;font-family: Tahoma;}
 input.headword {width:18em;font-size:90%;font-family: Tahoma;}
-.citation {font-family:Consolas;color:darkblue;}
+.citation {font-family:Consolas;color:blue;}
 .citation:hover {text-decoration: underline;cursor:pointer;}
 .highlightx0{background-color: yellow}
 .highlight{background-color: lightblue}

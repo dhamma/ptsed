@@ -32,7 +32,7 @@ const listcandidate=(dictdb,prefix)=>{
 	const headwords=dictdb.payload;
 	const headwordx0=dictdb.extra.headwordx0;
 	let at=bsearch(headwords,prefix,true);
-	const MAXITEM=15;
+	const MAXITEM=100;
 	const candidates=[];
 	while (at>0){
 		if (headwords[at-1].substr(0,prefix.length)==prefix) at--;

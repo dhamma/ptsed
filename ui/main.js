@@ -34,10 +34,19 @@ const renderline=(h,line)=>{
   	return h("div",children);
 }
 Vue.component("maintext",{
-  functional:true,
-  render(h) { //eslint-disable-line
-  	const children=ptsstore.getters.texts.map(line=>renderline(h,line[1]))
+ // functional:true,
+	updated(){
+		const ele=document.getElementsByClassName("pts-container")[0];
+		const arr=document.getElementsByClassName("highlight");
+		if (arr.length) {
+			ele.scrollTop=arr[0].offsetTop;
+		} else {
+			ele.scrollTop=0;
+		}
+	},
+	render(h) { //eslint-disable-line
+  		const children=ptsstore.getters.texts.map(line=>renderline(h,line[1]))
 
- 	return  h("div",{class:"maintext",on:{mouseup:checkselection}},children);
+ 		return  h("div",{class:"maintext",on:{mouseup:checkselection}},children);
 	}
 });

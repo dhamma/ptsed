@@ -1,7 +1,7 @@
-const guide=`　
-Usage: DoubleClick a word to check dictionary
+const guide=`　PTS reader with PED 
+DoubleClick a word or select partially to check dictionary
 
-Pāḷi Diacritics key (velthius compatible)
+Pāḷi Diacritic keys (Velthius compatible)
   aa=ā | .n=zn=ṇ | "n=qn=;n=ṅ | ~n=,n=wn=ñ
 
 Data Source:
@@ -10,6 +10,7 @@ PTS  Tipitaka, input by Dhammakaya Foundation,
 All datafile included are released under Creative Commons Zero.
 
 Source code and issue report: https://github.com/dhamma/ptsed/
+Abbriviations:
 `.split(/\n/);
 const abbrs={
 	mv:"MahaVagga",'vb1~vb2':"SuttaVibhaṅga",

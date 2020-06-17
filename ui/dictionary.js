@@ -14,12 +14,21 @@ const NestedCard=Vue.extend({
 		depth:{type:Number},
 		close:{type:Function}
 	},
+	updated(){
+		const ele=document.getElementsByClassName("ped-container")[0];
+		const arr=document.getElementsByClassName("highlightx0");
+		if (arr.length) {
+			ele.scrollTop=arr[0].offsetTop-200;
+		} else {
+			ele.scrollTop=0;
+		}
+	},
 	render(h){
 		const children=this.texts.map(item=>renderline(h,item));
 		return h("div",{class:this.depth?"card":""},
 			[
 			 this.close?h("button",{class:"floatright",on:{click:this.close}},"✖"):null,
-			 h("div",{},children)
+			 h("div",children)
 			]
 		);
 	}
@@ -140,6 +149,7 @@ const DictionaryPanel=Vue.extend({
 			this.showcandidate=true;
 		},
 		goto(x0){
+			if (x0<0)return;
 			const newcap=parseCAP(x0 ,dictstore.getters.cap.db);
 			dictstore.dispatch("setCap", newcap);
 			this.capstr=newcap.stringify();
@@ -157,7 +167,8 @@ const DictionaryPanel=Vue.extend({
 			this.candidates=listcandidate(dictstore.getters.cap.db,this.prefix);
 			this.showcandidate=true;
 			if ((this.candidates.length &&this.candidates.compound)
-			 || this.candidates.length==1){
+			 || this.candidates.length==1
+			 || this.candidates[0].headword==t){
 				this.goto(this.candidates[0].x0);
 			}
 			clearTimeout(blurtimer);
