@@ -19,7 +19,7 @@ const breakcompound=(dictdb,w)=>{
 			if (headwords[at-1].substr(0,w.length)==w) at--;
 			else break;
 		}
-		const headword=palilexicon[at];
+		const headword=palilexicon[at].replace(/[@\+].+/,'');
 		out.push({headword,x0:headwordx0[at]});
 	})
 	out.compound=true;
