@@ -7,7 +7,7 @@ Pāḷi Diacritic keys (Velthius compatible)
 Data Source:
 Pali English Dictionary, maintained by suttacentral.
 PTS  Tipitaka, input by Dhammakaya Foundation, 
-All datafile included are released under Creative Commons Zero.
+Datafiles are released under Creative Commons Zero.
 
 Source code and issue report: https://github.com/dhamma/ptsed/
 Abbriviations:

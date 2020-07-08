@@ -68,6 +68,7 @@ const actions = {
  }
  ,prevp: ({dispatch,state,commit}) => {
  	const newcap=state.cap.prevp();
+	
  	commit("keep",false);
  	dispatch("setCap",newcap);
  }
